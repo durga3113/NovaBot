@@ -5,7 +5,7 @@ const pino = require('pino');
 const fs = require("fs");
 const { Collection } = require('discord.js');
 const contact = require("./lib/contact.js");
-const MessageHandler = require('./CONNECTION/message');
+const messegea = require('./lib/index.js');
 const logger = pino({ level: "silent" });
 
 
@@ -36,7 +36,7 @@ async function startNova() {
 
     nova.ev.on('creds.update', () => saveCreds("./neko.json"));
     nova.ev.on('connection.update', ConnectionUpdate);
-    nova.ev.on('messages.upsert', messages => MessageHandler(messages, nova));
+    nova.ev.on('messages.upsert', messages => messagea(messages, nova));
     nova.ev.on('contacts.update', update => contact.saveContacts(update, nova));
 
   } catch (error) {
