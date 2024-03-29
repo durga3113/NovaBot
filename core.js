@@ -12,7 +12,7 @@ const app = express();
 const store = require('@whiskeysockets/baileys').makeInMemoryStore({ logger: pino().child({ level: 'silent', stream: 'store' }) });
 
 const clearState = () => {
-  fs.unlinkSync("./neko.json");
+fs.unlinkSync("./lib/clear.json");
 };
 
 async function startNova() {
@@ -21,7 +21,7 @@ async function startNova() {
       logger,
       printQRInTerminal: false,
       browser: ["NovaBot", "Chrome", "1.0.0"],
-      auth: (await require('@whiskeysockets/baileys').useMultiFileAuthState("./neko.json")).state
+      auth: (await require('@whiskeysockets/baileys').useMultiFileAuthState("./lib/clear.json")).state
     });
 
     store.bind(nova.ev);
@@ -33,13 +33,13 @@ async function startNova() {
       nova.cmd.set(command.name, command);
     }
 
-    nova.ev.on('creds.update', () => saveCreds("./neko.json"));
+    nova.ev.on('creds.update', () => saveCreds("./lib/clear.json"));
     nova.ev.on('connection.update', ConnectionUpdate);
     nova.ev.on('messages.upsert', messages => messagea(messages, nova));
     nova.ev.on('contacts.update', update => contact.saveContacts(update, nova));
 
   } catch (error) {
-    console.error("Error starting Nova:", error);
+    console.error("Nova:", error);
   }
 }
 
