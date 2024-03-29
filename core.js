@@ -1,132 +1,81 @@
-//
-const app = require("express")();
-const PORT = process.env.PORT || 8080;
-const {
-  default: DsanConnect,
-  DisconnectReason,
-  fetchLatestBaileysVersion,
-  makeInMemoryStore,
-  useSingleFileAuthState
-} = require('@adiwajshing/baileys');
+const express = require("express");
+const novaInit = require('@whiskeysockets/baileys').default;
 const { Boom } = require('@hapi/boom');
-const P = require('pino');
-const { QuickDB } = require('quick.db')
-const { MongoDriver } = require('quickmongo');
+const pino = require('pino');
 const fs = require("fs");
-const { Collection } = require('discord.js')
-const qr = require("qr-image");
+const { Collection } = require('discord.js');
 const contact = require("./lib/contact.js");
 const MessageHandler = require('./CONNECTION/message');
-const MONGOURL = process.env.URL || "mongodb+srv://nekosenpai269:1234@shibam.qw9rlw0.mongodb.net/?retryWrites=true&w=majority"
-console.log(`Bot Is Running Baby`);
-const driver = new MongoDriver(MONGOURL)
-const store = makeInMemoryStore({ logger: P().child({ level: 'silent', stream: 'store' }) })
+const logger = pino({ level: "silent" });
 
-async function startDsan() {
 
-  let { version } = await fetchLatestBaileysVersion()
-  const { state, saveState } = useSingleFileAuthState("./neko.json");
+const app = express();
+const store = require('@whiskeysockets/baileys').makeInMemoryStore({ logger: pino().child({ level: 'silent', stream: 'store' }) });
 
 const clearState = () => {
   fs.unlinkSync("./neko.json");
-}
-  const dsan = DsanConnect({
-    logger: P({ level: "silent" }),
-    printQRInTerminal: false,
-    browser: ["DSAN", "Chrome", "1.0.0"],
-    qrTimeout: 5000,
-    auth: state,
-    version
-  })
+};
 
-  store.bind(dsan.ev)
+async function startNova() {
+  try {
+    const nova = new novaInit({
+      logger,
+      printQRInTerminal: false,
+      browser: ["NovaBot", "Chrome", "1.0.0"],
+      auth: (await require('@whiskeysockets/baileys').useMultiFileAuthState("./neko.json")).state
+    });
 
-  dsan.cmd = new Collection()
+    store.bind(nova.ev);
+    nova.cmd = new Collection();
 
-  dsan.DB = new QuickDB({
-    driver
-  })
-
-  dsan.mods = process.env.MODS || "7047584741";
-
-  dsan.contactDB = dsan.DB.table('contacts')
-
-  dsan.contact = contact
-
-  dsan.prefix = process.env.PREFIX || '?'
-
-
-  async function readcommands() {
-    const cmdfile = fs
-      .readdirSync("./Commands")
-      .filter((file) => file.endsWith(".js"));
-    for (const file of cmdfile) {
-      const command = require(`./Commands/${file}`);
-      dsan.cmd.set(command.name, command);
+    const cFiles = fs.readdirSync("./plugins").filter(file => file.endsWith(".js"));
+    for (const file of cFiles) {
+      const command = require(`./plugins/${file}`);
+      nova.cmd.set(command.name, command);
     }
-  };
 
-  readcommands()
+    nova.ev.on('creds.update', () => saveCreds("./neko.json"));
+    nova.ev.on('connection.update', ConnectionUpdate);
+    nova.ev.on('messages.upsert', messages => MessageHandler(messages, nova));
+    nova.ev.on('contacts.update', update => contact.saveContacts(update, nova));
 
-
-
-  dsan.ev.on('creds.update', saveState)
-
-  dsan.ev.on('connection.update', async (update) => {
-
-    const { connection, lastDisconnect } = update
-
-
-    if (connection === "close") {
-      let reason = new Boom(lastDisconnect?.error)?.output.statusCode; if (reason === DisconnectReason.connectionClosed) {
-        console.log("Connection closed, reconnecting....");
-        startDsan();
-      } else if (reason === DisconnectReason.connectionLost) {
-        console.log("Connection Lost from Server, reconnecting...");
-        startDsan();
-      } else if (reason === DisconnectReason.loggedOut) {
-        clearState();
-        console.log(
-          ` Device Logged Out, Please Delete Session and Scan Again.`
-        );
-        process.exit();
-      } else if (reason === DisconnectReason.restartRequired) {
-        console.log("Server starting...");
-        startDsan();
-      } else if (reason === DisconnectReason.timedOut) {
-        console.log("Connection Timed Out, Trying to Reconnect....");
-        startDsan();
-      } else {
-        console.log(
-          `Server Disconnected: Maybe Your WhatsApp Account got banned !`
-        );
-        clearState();
-      }
-    }
-    if (update.qr) {
-      dsan.QR = qr.imageSync(update.qr)
-    }
+  } catch (error) {
+    console.error("Error starting Nova:", error);
   }
-  )
-
-  app.get("/", (req, res) => {
-    res.end(dsan.QR)
-  })
-  dsan.ev.on('messages.upsert', async (messages) => await MessageHandler(messages, dsan))
-
-  dsan.ev.on('contacts.update', async (update) => await contact.saveContacts(update, dsan))
-
-
 }
-if (!MONGOURL) return console.error('You have not provided any MongoDB URL!!')
-driver
-  .connect()
-  .then(() => {
-    console.log(`Connected to the database!`)
 
-    startDsan()
-  })
-  .catch((err) => console.error(err))
+function ConnectionUpdate(update) {
+  const { connection, lastDisconnect } = update;
 
+  switch (Boom(lastDisconnect?.error)?.output.statusCode) {
+    case require('@whiskeysockets/baileys').DisconnectReason.connectionClosed:
+      console.log("Connection closed, reconnecting...");
+      startNova();
+      break;
+    case require('@whiskeysockets/baileys').DisconnectReason.loggedOut:
+      clearState();
+      console.log("Device Logged Out, Please Delete Session and Scan Again.");
+      process.exit();
+      break;
+    case require('@whiskeysockets/baileys').DisconnectReason.restartRequired:
+      console.log("Server starting...");
+      startNova();
+      break;
+    case require('@whiskeysockets/baileys').DisconnectReason.timedOut:
+      console.log("Connection Timed Out, Trying to Reconnect....");
+      startNova();
+      break;
+    default:
+      console.log("Server Disconnected: Maybe Your WhatsApp Account got banned !");
+      clearState();
+      break;
+  }
+}
 
-app.listen(PORT)
+function saveState(filename) {
+  fs.writeFileSync(filename, JSON.stringify(state));
+}
+
+require('./index.js');
+
+module.exports = app;
