@@ -9,7 +9,6 @@
     "stop": "pm2 stop nova"
   },
   "author": "_",
-  "license": "ISC",
   "dependencies": {
     "axios": "^1.3.3",
     "baileys": "git+https://github.com/WhiskeySockets/Baileys.git",
