@@ -4,8 +4,7 @@ const { Boom } = require('@hapi/boom');
 const pino = require('pino');
 const fs = require("fs");
 const { Collection } = require('discord.js');
-const contact = require("./lib/contact.js");
-const messegea = require('./lib/index.js');
+const { messegea, contact } = require('./lib/novaBot.js');
 const logger = pino({ level: "silent" });
 
 
