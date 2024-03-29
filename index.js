@@ -10,7 +10,7 @@ console.log("Connected to SQL data");
     const novaInit = require('./core.js');
     await novaInit.startNova(DATABASEURL);
   } catch (error) {
-    console.error("failed:", error);
+    console.error("Initialization failed:", error);
     process.exit(1);
   }
 })();
@@ -23,3 +23,5 @@ const server = app.listen(port, () => {
 module.exports = server;
 
 await { max: 5 };
+
+start();
