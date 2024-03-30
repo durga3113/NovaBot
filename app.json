@@ -1,1 +1,48 @@
-.
+{
+  "name": "novabot",
+  "description": "wats volt by whiskey",
+  "keywords": ["noedjs"],
+  "success_url": "/",
+  "env": {
+    "MODS": {
+      "description": "members to be admin to the bot",
+      "required": false,
+      "value": ""
+      },
+      "PREFIX": {
+      "description": "prefix, your controller for the bot",
+      "required": false,
+      "value": "."
+      },
+      "SESSION_ID": {
+      "description": "session to get connected to nova",
+      "required": true,
+      "value": ""
+      },
+      "PACKNAME": {
+      "description": "infor for sticker pack",
+      "required": false,
+      "value": "🐊, NovaBot"
+     },
+     "HEROKU_APP_NAME": {
+      "description": "Heroku app name, same as above entered.",
+      "required": true
+     },
+     "HEROKU_API_KEY": {
+      "description": "Heroku account api key, https://dashboard.heroku.com/account",
+      "required": true
+     }
+     },
+     "addons": [
+     {
+      "plan": "heroku-postgresql:basic"
+     }
+     ],
+    "buildpacks": [{ "url": "https://github.com/heroku/heroku-buildpack-nodejs#latest" }],
+    "formation": {
+    "web": {
+    "quantity": 1,
+    "size": "basic"
+    }
+  }
+}
