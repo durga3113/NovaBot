@@ -37,7 +37,7 @@ async function authenticateRetry() {
     }
 
   if (!authenticated) {
-    console.error(`Failed ${maxRetries} attempts. Exiting...`);
+    console.error(`Failed ${maxes} attempts. Exiting...`);
     process.exit(1);
   }
   
