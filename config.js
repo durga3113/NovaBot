@@ -17,7 +17,7 @@ let config = {
 const DATABASE_URL =
   process.env.DATABASE_URL === undefined ? databaz : process.env.DATABASE_URL;
 
-config.DATABASE = DATABASE_URL === databaz ?
+config.DATABASEURL = DATABASE_URL === databaz ?
   new Sequelize({
     dialect: 'sqlite',
     storage: databaz,
