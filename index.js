@@ -28,7 +28,7 @@ async function authenticateRetry() {
 
   while (retries < maxes && !authenticated) {
     try {
-      await DATABASE.authenticate();
+      await DATABASEURL.authenticate();
       authenticated = true;
     } catch (error) {
       console.error(`Retrying... (${retries + 1}/${maxes})`);
