@@ -1,45 +1,36 @@
 const { Sequelize } = require('sequelize');
 const { existsSync } = require('fs');
 const path = require('path');
-const conn = path.join(__dirname, './config.env');
+
+const cPath = path.join(__dirname, './config.env');
 const databaz = path.join(__dirname, './database.db');
+if (existsSync(cPath)) require('dotenv').config({ path: cPath });
 
-if (existsSync(conn)) require('dotenv').config({ path: conn });
-const DATABASE_URL =
-process.env.DATABASE_URL === undefined ? databaz : process.env.DATABASE_URL;
-
-const {
-  SESSION_ID = '',
-  PREFIX = '^[.,!]',
-  MODS = '',
-  HEROKU_APP_NAME,
-  HEROKU_API_KEY,
-  PACKNAME = '🐊, NovaBot',
-} = process.env;
-
-const config = {
-  SESSION_ID: SESSION_ID.trim(),
-  CONTROLS: PREFIX.trim(),
-  MODS,
-  HEROKU_APP_NAME,
-  HEROKU_API_KEY,
-  PACKNAME,
-  DATABASE: DATABASE_URL === databasePath ?
-    new Sequelize({
-      dialect: 'sqlite',
-      storage: DATABASE_URL,
-      logging: false,
-    }) :
-    new Sequelize(DATABASE_URL, {
-      dialect: 'postgres',
-      ssl: true,
-      protocol: 'postgres',
-      dialectOptions: {
-      native: true,
-      ssl: { require: true, rejectUnauthorized: false },
-      },
-      logging: false,
-    }),
+let config = {
+  SESSION_ID: process.env.SESSION_ID || '',
+  PREFIX: process.env.PREFIX === undefined ? '.' : process.env.PREFIX,
+  MODS: process.env.MODS || '',
+  HEROKU_APP_NAME: process.env.HEROKU_APP_NAME || undefined,
+  HEROKU_API_KEY: process.env.HEROKU_API_KEY || undefined,
+  PACKNAME: process.env.PACKNAME || '🐊, NovaBot',
 };
+const DATABASE_URL =
+  process.env.DATABASE_URL === undefined ? databaz : process.env.DATABASE_URL;
+
+config.DATABASE = DATABASE_URL === databaz ?
+  new Sequelize({
+    dialect: 'sqlite',
+    storage: databaz,
+    logging: false,
+  }) :
+  new Sequelize(DATABASE_URL, {
+    dialect: 'postgres',
+    ssl: true,
+    protocol: 'postgres',
+    dialectOptions: {
+    ssl: { require: true, rejectUnauthorized: false },
+    },
+    logging: false,
+  });
 
 module.exports = config;
