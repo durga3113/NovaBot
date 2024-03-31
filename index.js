@@ -1,6 +1,6 @@
 const forever = require('forever');
 const { DATABASEURL } = require('./config.js');
-const { Sequelize } = require('./config.js');
+const { Sequelize } = require('sequelize');
 
 console.log("Sync Database");
 console.log("Connected to SQL data");
