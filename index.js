@@ -7,8 +7,8 @@ console.log("Connected to SQL data");
 
 (async () => {
   try {
-    const novaInit = require('./core.js');
-    await novaInit.startNova(DATABASEURL);
+    const nova = require('./lib/assest/index.js');
+    await nova.startNova(DATABASEURL);
     await DATABASEURL.sync();
   } catch (error) {
     console.error("failed:", error);
