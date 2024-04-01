@@ -1,4 +1,4 @@
-module.exports = {
+exports.default = {
   name: 'ping',
   category: 'misc',
   async carryOut(nova, react, m) {
