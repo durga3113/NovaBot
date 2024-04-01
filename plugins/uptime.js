@@ -1,4 +1,4 @@
-const { getUpTime } = require('../lib/itsTime.js');
+const { getUpTime } = require('../lib/novaBot.js');
 
 exports.default = {
   name: 'uptime',
