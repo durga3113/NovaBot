@@ -1,7 +1,7 @@
 const axios = require("axios");
 const yts = require('yt-search');
 
-module.exports = {
+exports.default = {
   name: 'yts',
   category: 'search',
   async carryOut(nova, react, m, { args }) {
