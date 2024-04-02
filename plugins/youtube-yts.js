@@ -4,7 +4,7 @@ const yts = require('yt-search');
 exports.default = {
   name: 'yts',
   category: 'search',
-  async carryOut(nova, react, m, { args }) {
+  carryOut: async (nova, m, { react, args }) => {
     
     if (!args) {
       await react('❌');
