@@ -1,7 +1,7 @@
 exports.default = {
   name: 'ping',
   category: 'misc',
-  async carryOut(nova, react, m) {
+  carryOut: async (nova, m, { react }) => {
   
     const { performance } = require('perf_hooks');
     await react('🐊');
