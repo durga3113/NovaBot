@@ -3,8 +3,8 @@ const { getUpTime } = require('../lib/novaBot.js');
 exports.default = {
   name: 'uptime',
   category: 'mics',
-  async carryOut(nova, react, m) {
-    
+  carryOut: async (nova, m, { react }) => {
+                  
     await react('⏲️');
     const uptime = process.uptime();
     const { daysElapsed, dayOfWeek, hours, minutes } = getUpTime(uptime);
