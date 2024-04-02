@@ -7,7 +7,6 @@ console.log("Connected to SQL data");
 
 (async () => {
   try {
-    const { nova } = require('./lib/novaBot.js');
     const { startNova } = require("./lib/core.js");
     await startNova(DATABASEURL);
     await DATABASEURL.sync();
