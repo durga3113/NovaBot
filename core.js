@@ -75,6 +75,5 @@ function saveState(filename) {
   fs.writeFileSync(filename, JSON.stringify(state));
 }
 
-require('./index.js');
+module.exports = { startNova };
 
-module.exports = app;
