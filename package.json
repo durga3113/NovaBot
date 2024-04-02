@@ -5,8 +5,8 @@
   "main": "index.js",
   "type": "commonjs",
   "scripts": {
-    "start": "pm2 start . --attach --name nova",
-    "stop": "pm2 stop nova"
+    "start": "pm2 start . --attach --name startNova",
+    "stop": "pm2 stop startNova"
   },
   "author": "_",
   "dependencies": {
