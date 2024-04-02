@@ -2,7 +2,7 @@
   "name": "novabot",
   "version": "4.0.0",
   "description": "",
-  "main": "core.js",
+  "main": "index.js",
   "type": "commonjs",
   "scripts": {
     "start": "pm2 start . --attach --name nova",
