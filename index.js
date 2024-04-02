@@ -36,12 +36,11 @@ async function authenticateRetry() {
       await new Promise(resolve => setTimeout(resolve, 1000)); 
     }
 
-  if (!authenticated) {
-    console.error(`Failed ${maxes} attempts. Exiting...`);
-    process.exit(1);
+    if (!authenticated) {
+      console.error(`Failed ${maxes} attempts. Exiting...`);
+      process.exit(1);
+    }
   }
-  
-  start();
 }
 
 authenticateRetry();
