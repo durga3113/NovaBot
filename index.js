@@ -1,9 +1,10 @@
 const forever = require('forever');
+const { logMessage } = require('./lib/assets/client.js');
 const { DATABASEURL } = require('./config.js');
 const { Sequelize } = require('sequelize');
 
-console.log("Sync Database");
-console.log("Connected to SQL data");
+logMessage('info', 'Sync Database');
+logMessage('info', 'Connected to SQL data');
 
 (async () => {
   try {
@@ -11,14 +12,14 @@ console.log("Connected to SQL data");
     await startNova(DATABASEURL);
     await DATABASEURL.sync();
   } catch (error) {
-    console.error("failed:", error);
+    logMessage('error', 'failed': error);
     process.exit(1);
   } 
 })();
 
 const port = process.env.PORT || 8080;
 const server = app.listen(port, () => {
-  console.log(`Listening on port ${port}`);
+  logMessage('info', `Listening on port ${port}`);
 });
 
 async function authenticateRetry() {
@@ -31,13 +32,13 @@ async function authenticateRetry() {
       await DATABASEURL.authenticate();
       authenticated = true;
     } catch (error) {
-      console.error(`Retrying... (${retries + 1}/${maxes})`);
+      logMessage('error', `Retrying... (${retries + 1}/${maxes})`);
       retries++;
       await new Promise(resolve => setTimeout(resolve, 1000)); 
     }
 
     if (!authenticated) {
-      console.error(`Failed ${maxes} attempts. Exiting...`);
+      logMessage('error', `Failed ${maxes} attempts. Exiting...`);
       process.exit(1);
     }
   }
