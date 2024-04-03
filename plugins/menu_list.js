@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const getCMD = path.join(__dirname, 'plugins');
+const getCMD = path.join(__dirname);
 
 const fetchCommands = () => {
   const commands = [];
