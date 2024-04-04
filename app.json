@@ -9,6 +9,11 @@
       "required": false,
       "value": ""
       },
+      "MODS_LOCK": {
+      "description": "to set private mode or public mode",
+      "required": false,
+      "value": "private"
+      },   
       "PREFIX": {
       "description": "prefix, your controller for the bot",
       "required": false,
