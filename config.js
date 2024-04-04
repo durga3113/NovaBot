@@ -10,6 +10,7 @@ let config = {
   SESSION_ID: process.env.SESSION_ID || '',
   PREFIX: process.env.PREFIX === undefined ? '.' : process.env.PREFIX,
   MODS: process.env.MODS ? process.env.MODS.split(',') : [],  
+  MODS_LOCK: process.env.MODS_LOCK === undefined ? 'private' : process.env.MODS_LOCK,
   HEROKU_APP_NAME: process.env.HEROKU_APP_NAME || undefined,
   HEROKU_API_KEY: process.env.HEROKU_API_KEY || undefined,
   PACKNAME: process.env.PACKNAME || '🐊, NovaBot',
