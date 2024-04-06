@@ -1,3 +1,5 @@
+const fetch = async (url) => import('node-fetch').then(module => module.default(url));
+
 exports.default = {
   name: 'truth',
   category: 'funny',
