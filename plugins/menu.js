@@ -28,7 +28,7 @@ exports.default = {
 
     const sorted = commands.sort((a, b) => a.category.localeCompare(b.category));
 
-    const countPlugins = files.filter(file => file !== 'menu.js' && file.endsWith('.js')).length;
+    const cmd_countz = files.filter(file => file !== 'menu.js' && file.endsWith('.js')).length;
 
     const cTme = new Date();
     const hours = cTme.getHours();
@@ -41,7 +41,7 @@ exports.default = {
     let NOVA_MENU = '';
     
     NOVA_MENU += `*BOT NAME*: ${BOT_NAME}\n`;
-    NOVA_MENU += `*PLUGINS*: ${countPlugins}\n`;
+    NOVA_MENU += `*PLUGINS*: ${cmd_countz}\n`;
     NOVA_MENU += `*OWNER_NAME*: ${isDEV}\n`;
     NOVA_MENU += `*MODE*: ${config.MODS_LOCK}\n`;
     NOVA_MENU += `*TIME*: ${CLOCK_WISE}\n\n`;
@@ -49,10 +49,10 @@ exports.default = {
     NOVA_MENU += `*💝 Commands Menu 💝*\n\n`;
 
     sorted.forEach(command => {
-      NOVA_MENU += `     *${command.category}*\n`;
+      NOVA_MENU += `     *${command.category.toUpperCase()}*\n`;
       NOVA_MENU += sorted
         .filter(cmd => cmd.category === command.category)
-        .map(cmd => `  - ${cmd.name}`)
+        .map(cmd => `  - ${cmd.name.toLowerCase()}`)
         .join('\n');
       NOVA_MENU += '\n\n';
     });
@@ -62,3 +62,4 @@ exports.default = {
     nova.sendMessage(m.chat, { text: NOVA_MENU }, { quoted: m });
   }
 };
+
