@@ -46,6 +46,8 @@ exports.default = {
     await react('🐊');
     const commandList = listCommands();
   
-    nova.sendMessage(m.chat, commandList, { quoted: m });
+    nova.sendMessage(m.chat, charStylist(commandList), { quoted: m });
+
+    
   }
 };
