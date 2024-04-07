@@ -40,14 +40,13 @@ exports.default = {
 
 let NOVA_MENU = '';
 NOVA_MENU += `
-╭──────────────▷
-│${charStylist('*Prefix*')}: ${charStylist(process.env.PREFIX)}
+╭─────────────▷
 │${charStylist('*User*')}: ${charStylist(m.pushName)}
 │${charStylist('*Time*')}: ${charStylist(CLOCK_WISE)}
 │${charStylist('*Day*')}: ${charStylist(cTme.toLocaleDateString('en-ZA', { weekday: 'long' }))}
 │${charStylist('*Date*')}: ${charStylist(cTme.toLocaleDateString('en-ZA'))}
 │${charStylist('*Plugins*')}: ${charStylist(cmd_countz)}
-╰───────────────▷`;
+╰──────────────▷`;
 
     let mega = '';
     sorted.forEach(command => {
