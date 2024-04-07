@@ -38,15 +38,15 @@ exports.default = {
     const Minutez = minutes < 10 ? `0${minutes}` : minutes;
     const CLOCK_WISE = `${Hourz}:${Minutez} ${ampm}`;
 
-    let NOVA_MENU = '';
-    NOVA_MENU += `
+let NOVA_MENU = '';
+NOVA_MENU += `
 ╭──────────────▷
-│ Prefix : ${process.env.PREFIX}
-│ User : ${m.pushName}
-│ Time : ${CLOCK_WISE}
-│ Day : ${cTme.toLocaleDateString('en-ZA', { weekday: 'long' })}
-│ Date : ${cTme.toLocaleDateString('en-ZA')}
-│ Plugins : ${cmd_countz}
+│${charStylist('*Prefix*')}: ${process.env.PREFIX})
+│${charStylist('*User*')}: ${m.pushName})
+│${charStylist('*Time*')}: ${CLOCK_WISE})
+│${charStylist('*Day*')}: ${cTme.toLocaleDateString('en-ZA', { weekday: 'long' })})
+│${charStylist('*Date*')}: ${cTme.toLocaleDateString('en-ZA')})
+│${charStylist('*Plugins*')}: ${cmd_countz})
 ╰───────────────▷`;
 
     let mega = '';
