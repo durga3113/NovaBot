@@ -5,11 +5,11 @@ const heroku = new Heroku({ token: Config.HEROKU_API_KEY })
 const baseURI = '/apps/' + Config.HEROKU_APP_NAME
 
 if (Config.HEROKU_API_KEY && Config.HEROKU_APP_NAME) {
-  
-	exports.default = {
+    
+    exports.default = {
     name: 'restart',
     category: 'heroku',
-    carryOut: async (nova,m, { react,isDev}) => {
+    carryOut: async (nova,m, { react,isDev }) => {
 
       if(!isDev) {
         return m.reply('_This is for my owner_');
