@@ -39,14 +39,14 @@ exports.default = {
 
     let NOVA_MENU = '';
     NOVA_MENU += `
-╭──────────────
+╭──────────────▷
 │ Prefix : ${process.env.PREFIX}
 │ User : ${m.pushName}
 │ Time : ${CLOCK_WISE}
 │ Day : ${cTme.toLocaleDateString('en-US', { weekday: 'long' })}
 │ Date : ${cTme.toLocaleDateString('en-US')}
 │ Plugins : ${cmd_countz}
-╰───────────────`;
+╰───────────────▷`;
 
     let mega = '';
     sorted.forEach(command => {
