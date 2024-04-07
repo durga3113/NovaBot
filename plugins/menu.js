@@ -23,12 +23,11 @@ exports.default = {
           commands.push({ name, category });
         }
       }
-      
     });
 
     const sorted = commands.sort((a, b) => a.category.localeCompare(b.category));
 
-    const cmd_countz = files.filter(file => file !== 'menu.js' && file.endsWith('.js')).length;
+    const cmd_countz = commands.length;
 
     const cTme = new Date();
     const hours = cTme.getHours();
@@ -39,29 +38,28 @@ exports.default = {
     const CLOCK_WISE = `${Hourz}:${Minutez} ${ampm}`;
 
     let NOVA_MENU = '';
-    
-    NOVA_MENU += `*BOT NAME*: ${BOT_NAME}\n`;
+    NOVA_MENU += `*BOT NAME*: MyBot\n`;
     NOVA_MENU += `*PLUGINS*: ${cmd_countz}\n`;
-    NOVA_MENU += `*OWNER_NAME*: ${isDEV}\n`;
+    NOVA_MENU += `*OWNER_NAME*: JohnDoe\n`;
     NOVA_MENU += `*MODE*: ${config.MODS_LOCK}\n`;
     NOVA_MENU += `*TIME*: ${CLOCK_WISE}\n\n`;
 
-    NOVA_MENU += `*💝 Commands Menu 💝*\n\n`;
 
+    let mega = '';
     sorted.forEach(command => {
-      NOVA_MENU += `     *${command.category.toUpperCase()}*\n`;
-      NOVA_MENU += sorted
+      mega += `╭───≺ ${command.category.toUpperCase()} ≻\n`;
+      sorted
         .filter(cmd => cmd.category === command.category)
-        .map(cmd => `  - ${cmd.name.toLowerCase()}`)
-        .join('\n');
-      NOVA_MENU += '\n\n';
+        .forEach(cmd => {
+          mega += `│  - ${cmd.name.toLowerCase()}\n`;
+        });
+      mega += `╰─────────────◉\n`;
     });
 
-    NOVA_MENU += `*${config.CAPTION}*`;
+    NOVA_MENU += mega; 
 
     nova.sendMessage(m.chat, { text: NOVA_MENU }, { quoted: m });
   }
 };
 
-                // ≺  ≻
-
+// exports.default = { 
