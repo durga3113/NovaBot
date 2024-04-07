@@ -1,5 +1,6 @@
 const fs = require('fs');
 const config = require('../config.js');
+const { charStylist } = require('../../lib/assets/client.js');
 const path = require('path');
 
 exports.default = {
@@ -50,11 +51,11 @@ exports.default = {
 
     let mega = '';
     sorted.forEach(command => {
-      mega += `╭───≺ *${command.category.toUpperCase()}* ≻\n`;
+      mega += `╭───≺ *${charStylist(command.category.toUpperCase())}* ≻\n`;
       sorted
         .filter(cmd => cmd.category === command.category)
         .forEach(cmd => {
-          mega += `│  - ${cmd.name.toLowerCase()}\n`;
+          mega += `│  - ${charStylist(cmd.name.toLowerCase())}\n`;
         });
       mega += `╰─────────────◉\n`;
     });
