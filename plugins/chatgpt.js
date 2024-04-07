@@ -5,8 +5,12 @@ exports.default = {
   category: 'GPT',
   carryOut: async (nova, m, { react, args }) => {
     
+    if(!args) {
+       await react('❌');
+      return m.reply('Provide a query: what is novabot');
+    }
     await react('🤖');
-    const reply = await getGPTReply(args);
-    nova.sendMessage(m.chat, reply, { quoted: m });
+    const ai_reply = await getGPTReply(args);
+    nova.sendMessage(m.chat, ai_reply, { quoted: m });
   }
 };
