@@ -43,8 +43,8 @@ exports.default = {
 │ Prefix : ${process.env.PREFIX}
 │ User : ${m.pushName}
 │ Time : ${CLOCK_WISE}
-│ Day : ${cTme.toLocaleDateString('en-US', { weekday: 'long' })}
-│ Date : ${cTme.toLocaleDateString('en-US')}
+│ Day : ${cTme.toLocaleDateString('en-ZA', { weekday: 'long' })}
+│ Date : ${cTme.toLocaleDateString('en-ZA')}
 │ Plugins : ${cmd_countz}
 ╰───────────────▷`;
 
