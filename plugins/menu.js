@@ -50,7 +50,7 @@ exports.default = {
 
     let mega = '';
     sorted.forEach(command => {
-      mega += `╭───≺ ${command.category.toUpperCase()} ≻\n`;
+      mega += `╭───≺ *${command.category.toUpperCase()}* ≻\n`;
       sorted
         .filter(cmd => cmd.category === command.category)
         .forEach(cmd => {
