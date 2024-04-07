@@ -38,12 +38,15 @@ exports.default = {
     const CLOCK_WISE = `${Hourz}:${Minutez} ${ampm}`;
 
     let NOVA_MENU = '';
-    NOVA_MENU += `*BOT NAME*: MyBot\n`;
-    NOVA_MENU += `*PLUGINS*: ${cmd_countz}\n`;
-    NOVA_MENU += `*OWNER_NAME*: JohnDoe\n`;
-    NOVA_MENU += `*MODE*: ${config.MODS_LOCK}\n`;
-    NOVA_MENU += `*TIME*: ${CLOCK_WISE}\n\n`;
-
+    NOVA_MENU += `
+╭──────────────
+│ Prefix : ${process.env.PREFIX}
+│ User : ${m.pushName}
+│ Time : ${CLOCK_WISE}
+│ Day : ${cTme.toLocaleDateString('en-US', { weekday: 'long' })}
+│ Date : ${cTme.toLocaleDateString('en-US')}
+│ Plugins : ${cmd_countz}
+╰───────────────`;
 
     let mega = '';
     sorted.forEach(command => {
@@ -61,5 +64,3 @@ exports.default = {
     nova.sendMessage(m.chat, { text: NOVA_MENU }, { quoted: m });
   }
 };
-
-// exports.default = { 
