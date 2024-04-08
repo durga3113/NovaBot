@@ -11,7 +11,7 @@ exports.default = {
     const { MODS, OWNER_NAME } = process;
     const cell = MODS;
     const ownerName = OWNER_NAME;
-    const nvlogo = "https://i.ibb.co/mCv3k97/original-e792fa6c963f76bc381b82ae539e68cc.png";
+    const nvlogo = "https://i.imgur.com/iLSSzc8.jpeg";
     const sourceUrl = `https://wa.me/${cell}`;
 
     const vcardData = `BEGIN:VCARD\nVERSION:3.0\nFN:${ownerName}\nORG:;\nTEL;type=CELL;type=VOICE;waid=${cell}:+${cell}\nEND:VCARD`;
