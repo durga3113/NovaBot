@@ -16,6 +16,7 @@
     "@vitalets/google-translate-api": "^9.2.0",
     "cheerio": "^1.0.0-rc.10",
     "cookie": "^0.5.0",
+    "quick.db": "^9.1.7",
     "dotenv": "^16.0.0",
     "file-type": "^18.2.1",
     "fluent-ffmpeg": "^2.1.2",
