@@ -14,6 +14,8 @@ let config = {
   HEROKU_APP_NAME: process.env.HEROKU_APP_NAME || undefined,
   HEROKU_API_KEY: process.env.HEROKU_API_KEY || undefined,
   PACKNAME: process.env.PACKNAME === undefined ? '🐊, NovaBot' : process.env.PACKNAME,
+  CAPTION: process.env.CAPTION === undefined ? 'ļo̡ve҉ ͠͠Nova͢B̵o̢t͘' : process.env.CAPTION,
+  OWNER_NAME: process.env.OWNER_NAME === undefined ? 'its you🐊' : process.env.OWNER_NAME,
 };
 
 const DATABASE_URL = process.env.DATABASE_URL || databaz;
