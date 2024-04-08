@@ -5,7 +5,7 @@ exports.default = {
   name: 'google',
   alias: ['search'],
   category: 'internet',
-  carryOut: async (nova, m, { args }) => {
+  carryOut: async (nova, m, { react, args }) => {
 
     if(!args) {
       await react('❌');
