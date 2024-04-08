@@ -51,7 +51,7 @@ exports.default = {
 
       await m.reply(response);
     } catch (error) {
-      await m.reply('❌ Error searching:', error);
+      await m.reply('_Error_:', error);
     }
   },
 };
