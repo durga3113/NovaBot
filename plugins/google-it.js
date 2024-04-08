@@ -9,7 +9,7 @@ exports.default = {
 
     if(!args) {
       await react('❌');
-      return m.reply('_Provide a query: googl/search the NovaBot_');
+      return m.reply('_Provide a query: google/search the NovaBot_');
     }
     
     try {
