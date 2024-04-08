@@ -29,6 +29,11 @@
       "required": false,
       "value": "🐊, NovaBot"
      },
+     "OWNER_NAME": {
+     "description": "add your name fo the vcard",
+     "required": false,
+     "value": "its you🐊"
+     },
      "HEROKU_APP_NAME": {
       "description": "Heroku app name, same as above entered.",
       "required": true
