@@ -8,13 +8,13 @@ exports.default = {
     
     const formatVideo = (video) => {
       const { title, duration, views, uploadedAt, url } = video;
-      const isDuration = formatDuration(duration); 
-      const isViews = formatViews(views);
-      const isDate = formatDate(uploadedAt);
+      const isDuration = duration;
+      const isViews = views; 
+      const isDate = uploadedAt; 
       return `*Title:* ${title}\n*Time:* ${isDuration}\n*Views:* ${isViews}\n*Publish:* ${isDate}\n*Link:* ${url}`;
     };
 
-      const Messag = (query, videos) => {
+    const Message = (query, videos) => {
       const queryHeader = `*Results for:* \`${query}\`\n\n`;
       const videoMessages = videos.map(formatVideo);
       return queryHeader + videoMessages.join("\n\n");
@@ -26,17 +26,23 @@ exports.default = {
     }
 
     const query = args;
-    const videos = await YouTube.search(query, { limit: 1 }); 
+    try {
+      const videos = await YouTube.search(query, { limit: 1 }); 
 
-    if (!videos.length) {
+      if (!videos.length) {
+        await react("❌");
+        return m.reply("*No results found for:* `" + query + "`");
+      }
+
+      await react("✅");
+
+      const tubei = Message(query, videos);
+
+      nova.sendMessage(m.chat, { text: tubei }, { quoted: m });
+    } catch (error) {
+      console.error("Err:", error);
       await react("❌");
-      return m.reply("*No results found for:* `" + query + "`");
+      return m.reply("*_An error occurred while searching_*");
     }
-
-    await react("✅");
-
-    const tubei = Messag(query, videos);
-
-    nova.sendMessage(m.chat, { text: tubei }, { quoted: m });
   }
 };
