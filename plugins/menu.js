@@ -1,4 +1,3 @@
-const fs = require('fs');
 const config = require('../config.js');
 const { charStylist } = require('../../lib/assets/client.js');
 const path = require('path');
@@ -38,8 +37,8 @@ exports.default = {
     const Minutez = minutes < 10 ? `0${minutes}` : minutes;
     const CLOCK_WISE = `${Hourz}:${Minutez} ${ampm}`;
 
-let NOVA_MENU = '';
-NOVA_MENU += `
+    let NOVA_MENU = '';
+    NOVA_MENU += `
 ╭─────────────▷
 │${charStylist('*User*')}: ${charStylist(m.pushName)}
 │${charStylist('*Time*')}: ${charStylist(CLOCK_WISE)}
@@ -61,6 +60,8 @@ NOVA_MENU += `
 
     NOVA_MENU += mega; 
 
-    nova.sendMessage(m.chat, { text: NOVA_MENU }, { quoted: m });
+    nova.sendMessage(m.chat, { text: NOVA_MENU, footer: charStylist(
+          `Version : ${require("../package.json").version}`
+    )}, { quoted: m });
   }
-};
+}
