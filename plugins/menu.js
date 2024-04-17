@@ -39,7 +39,7 @@ exports.default = {
     const CLOCK_WISE = `${Hourz}:${Minutez} ${ampm}`;
 
     let NOVA_MENU = '';
-    NOVA_MENU += `\`\`\`╭──〘 NovaBot 〙──
+    NOVA_MENU += `\`\`\`╭──〘 NovaBot 〙──⊷
 │ ╭─────────────▷
 │ │${charStylist('*User*')}: ${charStylist(m.pushName)}
 │ │${charStylist('*Time*')}: ${charStylist(CLOCK_WISE)}
@@ -47,7 +47,7 @@ exports.default = {
 │ │${charStylist('*Date*')}: ${charStylist(cTme.toLocaleDateString('en-ZA'))}
 │ │${charStylist('*Plugins*')}: ${charStylist(cmd_countz)}
 │ ╰──────────────▷
-╰───────────────\`\`\`\n`
+╰───────────────⊷\`\`\`\n`
 
     let mega = '';
     sorted.forEach(command => {
