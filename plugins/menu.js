@@ -39,6 +39,13 @@ exports.default = {
 
     let NOVA_MENU = '';
     NOVA_MENU += `
+〘 NovaBot   〙
+    │
+    │ 
+    │ 
+    ╰
+    
+    〘 NovaBot   〙
 ╭─────────────▷
 │${charStylist('*User*')}: ${charStylist(m.pushName)}
 │${charStylist('*Time*')}: ${charStylist(CLOCK_WISE)}
