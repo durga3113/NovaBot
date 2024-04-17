@@ -1,3 +1,4 @@
+const fs = require('fs');
 const config = require('../config.js');
 const { charStylist } = require('../../lib/assets/client.js');
 const path = require('path');
@@ -38,21 +39,15 @@ exports.default = {
     const CLOCK_WISE = `${Hourz}:${Minutez} ${ampm}`;
 
     let NOVA_MENU = '';
-    NOVA_MENU += `
-〘 NovaBot   〙
-    │
-    │ 
-    │ 
-    ╰
-    
-    〘 NovaBot   〙
-╭─────────────▷
-│${charStylist('*User*')}: ${charStylist(m.pushName)}
-│${charStylist('*Time*')}: ${charStylist(CLOCK_WISE)}
-│${charStylist('*Day*')}: ${charStylist(cTme.toLocaleDateString('en-ZA', { weekday: 'long' }))}
-│${charStylist('*Date*')}: ${charStylist(cTme.toLocaleDateString('en-ZA'))}
-│${charStylist('*Plugins*')}: ${charStylist(cmd_countz)}
-╰──────────────▷`;
+    NOVA_MENU += `\`\`\`╭──〘 NovaBot 〙──
+│ ╭─────────────▷
+│ │${charStylist('*User*')}: ${charStylist(m.pushName)}
+│ │${charStylist('*Time*')}: ${charStylist(CLOCK_WISE)}
+│ │${charStylist('*Day*')}: ${charStylist(cTme.toLocaleDateString('en-ZA', { weekday: 'long' }))}
+│ │${charStylist('*Date*')}: ${charStylist(cTme.toLocaleDateString('en-ZA'))}
+│ │${charStylist('*Plugins*')}: ${charStylist(cmd_countz)}
+│ ╰──────────────▷
+╰───────────────\`\`\`\n`
 
     let mega = '';
     sorted.forEach(command => {
