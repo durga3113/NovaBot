@@ -20,11 +20,9 @@ exports.default = {
         const Pathz = path.join(pluginsDir, file);
         const plugin = require(Pathz);
         const { name, category } = plugin.default || {};
-        if (name && category) {
-          commands.push({ name, category });
-        }
-      }
-    });
+        return name && category ? { name, category } : null;
+      })
+      .filter(cmd => cmd);    
 
     const sorted = commands.sort((a, b) => a.category.localeCompare(b.category));
 
