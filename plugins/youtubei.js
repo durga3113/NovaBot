@@ -35,7 +35,7 @@ exports.default = {
         mimetype: 'audio/mpeg',
         contextInfo: {
           forwardingScore: 10,
-          isFowarded: true,
+          isForwarded: true,
           externalAdReply: {
             title: query,
             body: '',
