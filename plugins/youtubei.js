@@ -34,10 +34,13 @@ exports.default = {
         audio: nvBuff.data,
         mimetype: 'audio/mpeg',
         contextInfo: {
+          forwardingScore: 10,
+          isFowarded: true,
           externalAdReply: {
             title: query,
             body: '',
             thumbnail: await nvbuffe('https://github.com/Diegoson/NovaBot/blob/main/lib/images/NovaBot.png'),
+            renderLargerThumbnail: false,
             mediaType: 2,
             mediaUrl: '', 
           }
