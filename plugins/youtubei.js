@@ -1,10 +1,11 @@
 const axios = require('axios');
+const { nvbuffe } = require('../../lib/assets/client');
 
 exports.default = {
   name: 'song',
   alias: ['audio'],
   category: 'downloads',
-  carryOut: async (nova, m, { react, args, getBuffer }) => {
+  carryOut: async (nova, m, { react, args }) => {
     try {
       if (!args) {
         await react('❌');
@@ -36,7 +37,7 @@ exports.default = {
           externalAdReply: {
             title: query,
             body: '',
-            thumbnail: await getBuffer('https://github.com/Diegoson/NovaBot/blob/main/lib/images/NovaBot.png'),
+            thumbnail: await nvbuffe('https://github.com/Diegoson/NovaBot/blob/main/lib/images/NovaBot.png'),
             mediaType: 2,
             mediaUrl: '', 
           }
