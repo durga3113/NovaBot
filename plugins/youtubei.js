@@ -36,7 +36,7 @@ exports.default = {
           externalAdReply: {
             title: query,
             body: '',
-            thumbnail: await getBuffer(''),
+            thumbnail: await getBuffer('https://github.com/Diegoson/NovaBot/blob/main/lib/images/NovaBot.png'),
             mediaType: 2,
             mediaUrl: '', 
           }
