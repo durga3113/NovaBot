@@ -13,7 +13,7 @@ exports.default = {
       }
 
       const query = encodeURIComponent(args);
-      await m.reply('_Downloading your song, please wait..._');
+      await m.reply(`*Downloading*: *_${query}..._*`);
       const res = await axios.get(`https://api-viper-x.koyeb.app/api/song?name=${query}`);
 
       if (res.status !== 200) {
