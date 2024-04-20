@@ -1,28 +1,44 @@
+const { DataTypes } = require('sequelize');
+
 const WorkType = sequelize.define('WorkType', {
   id: {
-    type: Sequelize.STRING,
+    type: DataTypes.STRING,
     primaryKey: true
   },
-  botMode: Sequelize.STRING
+  botMode: DataTypes.STRING
 });
 
-async function setBotMode(mode) {
-  let selectedMode = await WorkType.findOne({ where: { id: "1" } });
-  if (!selectedMode) {
-    await WorkType.create({ id: "1", botMode: mode });
-    return;
+async function updBotMode(mode) {
+  try {
+    let bot = await WorkType.findByPk("1");
+    if (!bot) {
+      await WorkType.create({ id: "1", botMode: mode });
+      return;
+    }
+    if (bot.botMode === mode) {
+      return;
+    }
+    await bot.update({ botMode: mode });
+  } catch (error) {
+    console.error(error);
   }
-  if (selectedMode.botMode === mode) {
-    return;
-  }
-  await WorkType.update({ botMode: mode }, { where: { id: "1" } });
 }
 
- async function getBotMode() {
-  const selectedMode = await WorkType.findOne({ where: { id: "1" } });
-  if (!selectedMode) {
+async function gBM() {
+  try {
+    const bot = await WorkType.findByPk("1");
+    if (!bot) {
+      return "public";
+    }
+    return bot.botMode;
+  } catch (error) {
+    console.error(error);
     return "public";
   }
-  return selectedMode.botMode;
-      }
-                                              
+}
+
+module.exports = {
+  updBotMode,
+  gBM
+};
+    
