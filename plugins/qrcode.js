@@ -1,3 +1,4 @@
+const { createCanvas, loadImage } = require('canvas');
 const QRCode = require('qrcode');
 
 exports.default = {
@@ -20,13 +21,24 @@ exports.default = {
     };
 
     try {
-      const qrImageBuffer = await QRCode.toBuffer(match, qrOptions);
+      const qrImage = await QRCode.toCanvas(match, qrOptions);
+
+      const canvas = createCanvas(qrImage.width, qrImage.height);
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(qrImage, 0, 0);
+      ctx.font = '20px Arial';
+      ctx.fillStyle = '#000000';  
+      ctx.textAlign = 'center';
+      ctx.fillText('NovaBot', qrImage.width / 2, qrImage.height / 2);
+
+      const qrImageBuffer = canvas.toBuffer();
+
       await nova.sendMessage(m.chat, { image: qrImageBuffer, caption: '*_Here is your QR Code_*' });
 
       setTimeout(async () => {
-        const newQr = await QRCode.toBuffer(match, qrOptions);
-        await nova.sendMessage(m.chat, { image: newQr, caption: '_Your previous QR Code has timed out, please use this new one_' });
-      }, 480000);
+        await nova.sendMessage(m.chat, { text: 'Your previous QR Code has timed out, please use this new one' });
+      }, 480000);  
+
     } catch (error) {
       console.error('*_Error_*:', error);
       await react('⚠️');
@@ -34,4 +46,4 @@ exports.default = {
     }
   }
 };
-        
+          
