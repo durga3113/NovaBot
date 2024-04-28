@@ -50,12 +50,20 @@ file: nova.fs.readFileSync(`${title}.${info.formats[0].ext}`),
 filename: `${title}.${info.formats[0].ext}`,
 },
 caption: `*Title:${title}*\n*Size: ${size} seconds*\n*Quality: ${quality}*`,
-externalAdReply: {
-title: 'NovaBot',
-body: 'vn_ext',
-thumbnail: info.thumbnail,
-},
-  });
+contextInfo: {
+  forwardingScore: 9,
+  isForwarded: true,
+  externalAdReply: {
+   title: 'NovaBot',
+    body: 'vn_ext',
+    sourceUrl: '',
+    mediaUrl: '',
+    mediaType: 1,
+    thumbnail: info.thumbnail,
+    renderLargerThumbnail: false, 
+    showAdAttribution: true,
+     },
+  }});
 });
 } catch (err) {
 m.reply(`*_Error_*: ${err.message}`);
