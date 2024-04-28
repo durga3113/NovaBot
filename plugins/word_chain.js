@@ -110,3 +110,30 @@ return words[Math.floor(Math.random() * words.length)];
 return nextWord;
 }
 
+function getGameMode() {
+   if (gameMode === 'normal') {
+     return 'Normal mode';
+ } else if (gameMode === 'timed') {
+   return 'Timed mode';
+   } else if (gameMode === 'competitive') {
+     return 'Competitive mode';
+ } else {
+   return 'Unknown mode';
+   }
+}
+
+try {
+   checkWordValidity(currentWord);
+} catch (error) {
+   console.error(error);
+gameOver = true;
+  m.reply('Invalid word! Game over!');
+}
+
+  if (gameOver) {
+   await m.reply(`Game over: Mode: ${getGameMode()}`);
+     }
+   }
+}
+
+   }
