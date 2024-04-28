@@ -13,9 +13,9 @@ const videoTitle = args[1];
 const ytdl = require('ytdl-core');
 const yts = require('yt-search');
 
-const ytRegex = `^https?:\/\/(?:www\.|m\.)(youtube\.com|youtu\.be)\/(?:watch\?v=|v\/|)([a-zA-Z0-9_-]+)$`;
+const ytRegex = /^https?:\/\/(?:www\.|m\.)(youtube\.com|youtu\.be)\/(?:watch\?v=|v\/|)([a-zA-Z0-9_-]+)$/;
 if (!url.match(ytRegex)) {
-return m.reply('Invalid YouTube URL');
+return m.reply('*_Invalid YouTube URL_*');
 }
 
 try {
@@ -58,7 +58,7 @@ thumbnail: info.thumbnail,
   });
 });
 } catch (err) {
-m.reply(`Error: ${err.message}`);
+m.reply(`*_Error_*: ${err.message}`);
   }
  }
 }
