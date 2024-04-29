@@ -50,7 +50,7 @@ return false;
 
     if (args[0] === 'join') {
   if (players.length
-       players.push(m.author.username);
+       players.push(m.pushName);
          nova.sendMessage(m.chat, {
            text: `${m.pushName} has joined the game`
       v});
