@@ -1,139 +1,95 @@
 exports.default = {
-name: 'wordchain',
-category: 'games',
-carryOut: async (nova, m, { react, args }) => {
+  name: 'wordchain',
+  category: 'games',
+  carryOut: async (nova, m, { react, args }) => {
+    const words = [
+      'apple', 'banana', 'cherry', 'date', 'elderberry', 'fig', 'grape', 'honeydew',
+      'ice cream', 'jackfruit', 'kiwi', 'lemon', 'mango', 'nectarine', 'orange',
+      'pineapple', 'quince', 'raspberry', 'strawberry', 'tangerine', 'ugli fruit',
+      'victoria plum', 'watermelon', 'xigua', 'yellow passionfruit', 'zucchini'
+    ];
 
-   const words = [
-'apple',
-'banana',
-'cherry',
-'date',
-'elderberry',
-'fig',
-'grape',
-'honeydew',
-'ice cream',
-'jackfruit',
-'kiwi',
-'lemon',
-'mango',
-'nectarine',
-'orange',
-'pineapple',
-'quince',
-'raspberry',
-'strawberry',
-'tangerine',
-'ugli fruit',
-'victoria plum',
-'watermelon',
-'xigua',
-'yellow passionfruit',
-'zucchini'
-];
-let currentWord = '';
-let player1 = '';
-let player2 = '';
-let turn = 1;
-let gameOver = false;
-let timer = null;
-let timeLimit = 30;
-let gameMode = 'normal'; 
+    let currentWord = '';
+    let player1 = '';
+    let player2 = '';
+    let turn = 1;
+    let gameOver = false;
+    let timer = null;
+    let timeLimit = 30; 
+    let gameMode = 'normal'; 
 
-   if (args[0] === 'start') {
-  player1 = m.pushName;
-    currentWord = getRandomWord();
-await m.reply(`__Word Chain Game__
+    function getRandomWord() {
+      return words[Math.floor(Math.random() * words.length)];
+    }
+
+    function getNextWord(word) {
+      const lastLetter = word.slice(-1);
+      return words.find(w => w.startsWith(lastLetter));
+    }
+
+    function checkWordValidity(word) {
+      return words.includes(word);
+    }
+
+    function resetTimer() {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        gameOver = true;
+        nova.sendMessage(m.chat, { text: 'Time\'s up! Game over!' });
+      }, timeLimit * 1000);
+    }
+
+    function createGameStatus(currentWord, currentPlayer, currentTurn) {
+      return `__Word Chain Game__
 
 | _Word_ | _Player_ | _Turn_ | _Chain_ |
 | --- | --- | --- | --- |
-| *${currentWord}* | ${player1} | 1 | ↪ |
+| *${currentWord}* | ${currentPlayer} | ${currentTurn} | ↪ |
 
 _Game Stats:_
-- _Current Turn:_ 1
+- _Current Turn:_ ${currentTurn}
 - _Game Mode:_ ${gameMode}
+`;
+    }
 
-`); timer = setTimeout(() => { gameOver = true; m.channel.send('Time's up! Game over!'); }, timeLimit * 1000); } else if (args[0] === 'join') { player2 = m.author.username; await m.channel.send(`__Word Chain Game__
+    function handleTurn(word) {
+      if (!checkWordValidity(word)) {
+        m.reply('Invalid word! Try again.');
+        return;
+      }
 
-| _Word_ | _Player_ | _Turn_ | _Chain_ |
-| --- | --- | --- | --- |
-| *${currentWord}* | ${player1} | 1 | ↪ |
+      if ((turn === 1 && m.pushName === player1) || (turn === 2 && m.pushName === player2)) {
+        currentWord = word;
+        turn = turn === 1 ? 2 : 1;
+        nova.sendMessage(m.chat, { text: createGameStatus(currentWord, turn === 1 ? player1 : player2, turn) });
+        resetTimer();
+      } else {
+        m.reply('It\'s not your turn!');
+      }
+    }
 
-_Game Stats:_
-- _Current Turn:_ 1
-- _Game Mode:_ ${gameMode}
+    if (args[0] === 'start') {
+      player1 = m.pushName;
+      currentWord = getRandomWord();
+      nova.sendMessage(m.chat, { text: createGameStatus(currentWord, player1, 1) });
+      resetTimer();
+    } else if (args[0] === 'join') {
+      player2 = m.pushName;
+      nova.sendMessage(m.chat, { text: createGameStatus(currentWord, player1, 1) });
+    } else if (args[0] === 'next') {
+      if (gameOver) {
+        m.reply('Game over Start a new game with !wordchain start');
+        return;
+      }
+      let word = args.slice(1).join(' ');
+      handleTurn(word);
+    } else {
+      m.reply('*_Usage_*: !wordchain start|join|next <word>');
+    }
 
-`); } else if (args[0] === 'next') { if (gameOver) { await nova.sendMessage(m.chat,{text:'Game over! Start a new game with !wordchain start'}); return; } if (m.pushName === player1 && turn === 1) { const nextWord = getNextWord(currentWord); if (nextWord) { currentWord = nextWord; await m.reply(`__Word Chain Game__
-
-| _Word_ | _Player_ | _Turn_ | _Chain_ |
-| --- | --- | --- | --- |
-| *${currentWord}* | ${player1} | 2 | ↩️ ${currentWord.slice(-1)} |
-
-_Game Stats:_
-- _Current Turn:_ 2
-- _Game Mode:_ ${gameMode}
-
-`); turn = 2; clearTimeout(timer); timer = setTimeout(() => { gameOver = true; m.reply('*_Time's up! Game over_*'); }, timeLimit * 1000); } else { await m.channel.send('No more words in the chain!'); gameOver = true; } } else if (m.author.username === player2 && turn === 2) { const word = args.slice(1).join(' '); if (word.startsWith(currentWord.slice(-1))) { currentWord = word; await m.channel.send(`__Word Chain Game__
-
-| _Word_ | _Player_ | _Turn_ | _Chain_ |
-| --- | --- | --- | --- |
-| *${currentWord}* | ${player2} | 3 | ↩️ ${currentWord.slice(-1)} |
-
-_Game Stats:_
-- _Current Turn:_ 3
-- _Game Mode:_ ${gameMode}
-
-`);
-  turn = 1;
-    clearTimeout(timer);
-   timer = setTimeout(() => {
- gameOver = true;
-   m.reply('Time's up! Game over');
-   }, timeLimit * 1000);
-} else {
-   await m.reply('Invalid word! Try again.');
- }
-} else {
-  await nova.sendMessage(m.chat,{text:'You are not a player in this game'});
-   }
-} else {
-  await m.reply('Usage: !wordchain');
-}
-
-  function getRandomWord() {
-return words[Math.floor(Math.random() * words.length)];
-}
-
-   function getNextWord(word) {
-  const lastLetter = word.slice(-1);
-     const nextWord = words.find(w => w.startsWith(lastLetter));
-return nextWord;
-}
-
-function getGameMode() {
-   if (gameMode === 'normal') {
-     return 'Normal mode';
- } else if (gameMode === 'timed') {
-   return 'Timed mode';
-   } else if (gameMode === 'competitive') {
-     return 'Competitive mode';
- } else {
-   return 'Unknown mode';
-   }
-}
-
-try {
-   checkWordValidity(currentWord);
-} catch (error) {
-   console.error(error);
-gameOver = true;
-  m.reply('Invalid word! Game over!');
-}
-
-  if (gameOver) {
-   await m.reply(`Game over: Mode: ${getGameMode()}`);
-     }
-   }
-}
-
-   }
+    if (gameOver) {
+      m.reply(`Game over: *Mode*: ${gameMode}`);
+    }
+  }
+};
+                             
